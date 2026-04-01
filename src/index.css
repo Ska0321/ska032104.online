@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #07090F;
+    color: #E2E8F0;
+    font-family: 'IBM Plex Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Space Grotesk', sans-serif;
+  }
+
+  ::-webkit-scrollbar { width: 3px; }
+  ::-webkit-scrollbar-track { background: #0C1018; }
+  ::-webkit-scrollbar-thumb { background: #00D4AA; border-radius: 2px; }
+  ::selection { background: rgba(0, 212, 170, 0.2); }
+}
+
+@layer utilities {
+  /* Subtle dot grid */
+  .bg-grid {
+    background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  /* Vignette so grid fades at edges */
+  .bg-vignette {
+    background:
+      radial-gradient(ellipse 70% 60% at 50% 50%, transparent 30%, #07090F 85%),
+      radial-gradient(ellipse 100% 40% at 50% 100%, #07090F 0%, transparent 100%);
+  }
+
+  /* Glassmorphism card */
+  .glass {
+    background: rgba(17, 24, 38, 0.55);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+  }
+
+  .glass:hover {
+    background: rgba(17, 24, 38, 0.75);
+    border-color: rgba(0, 212, 170, 0.18);
+  }
+
+  /* Accent glow pulse */
+  .glow-accent {
+    box-shadow: 0 0 40px rgba(0, 212, 170, 0.12), 0 0 80px rgba(0, 212, 170, 0.06);
+  }
+}
