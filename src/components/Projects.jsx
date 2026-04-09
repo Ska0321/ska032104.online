@@ -133,7 +133,12 @@ function FeaturedCard({ project }) {
 
         {/* Content */}
         <div className="p-8 lg:p-10 flex flex-col">
-          <div className="flex items-center gap-2 mb-4">
+
+          {/* Logo + badge row */}
+          <div className="flex items-center gap-3 mb-5">
+            {project.logo && (
+              <img src={project.logo} alt="Altarego logo" className="w-8 h-8 object-contain" />
+            )}
             <span className="font-mono text-[10px] text-accent tracking-[0.25em] uppercase border border-accent/30 px-2 py-0.5">
               Featured
             </span>
@@ -142,17 +147,26 @@ function FeaturedCard({ project }) {
 
           <h3 className="font-display text-2xl font-bold text-[#E2E8F0]">{project.title}</h3>
 
-          <p className="mt-4 text-[#94A3B8] text-sm leading-relaxed font-light flex-1">
+          <p className="mt-3 text-[#94A3B8] text-sm leading-relaxed font-light">
             {project.description}
           </p>
 
-          {project.longDescription && (
-            <p className="mt-3 text-[#64748B] text-xs leading-relaxed font-light border-l border-[#1A2236] pl-3">
-              {project.longDescription}
-            </p>
-          )}
+          {/* Onboarding taglines — mirrors the app's welcome screens */}
+          <div className="mt-5 space-y-2">
+            {[
+              { face: '[ ^ _ ^ ]', label: 'A personal AI conscience companion' },
+              { face: '[ # _ # ]', label: 'Private by design — no cloud, no servers' },
+              { face: '[ * _ * ]', label: 'Train your self — your digital conscience grows' },
+              { face: '[ ★ _ ★ ]', label: 'Your hope is your north star' },
+            ].map(({ face, label }) => (
+              <div key={label} className="flex items-center gap-3">
+                <span className="font-mono text-[10px] text-accent/70 whitespace-nowrap">{face}</span>
+                <span className="font-mono text-[10px] text-[#475569] tracking-wide">{label}</span>
+              </div>
+            ))}
+          </div>
 
-          <div className="mt-6 flex flex-wrap gap-1.5">
+          <div className="mt-5 flex flex-wrap gap-1.5">
             {project.tags.map(tag => (
               <span
                 key={tag}
@@ -169,7 +183,7 @@ function FeaturedCard({ project }) {
                 href={project.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest border border-[#1A2236] text-[#334155] px-4 py-2 hover:border-accent/40 hover:text-accent transition-all duration-200"
+                className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest border border-[#1A2236] text-[#64748B] px-4 py-2 hover:border-accent/40 hover:text-accent transition-all duration-200"
               >
                 <FiGithub size={12} /> GitHub
               </a>

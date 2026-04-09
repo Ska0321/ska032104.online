@@ -12,7 +12,12 @@ export const projects = [
     live: null,
     year: '2026',
     featured: true,
+    logo: '/projects/altarego-logo.png',
     images: [
+      '/projects/altarego-onboard-1.png',
+      '/projects/altarego-onboard-2.png',
+      '/projects/altarego-onboard-3.png',
+      '/projects/altarego-onboard-4.png',
       '/projects/altarego.png',
       '/projects/altarego-2.png',
       '/projects/altarego-3.png',
