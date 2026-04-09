@@ -24,7 +24,7 @@ export default function Projects() {
         <div className="flex items-center gap-3 mb-2">
           <span className="font-mono text-[10px] text-accent/50 tracking-[0.25em] uppercase">01</span>
           <span className="w-8 h-px bg-accent/20" />
-          <span className="font-mono text-[10px] text-[#2D3748] tracking-[0.25em] uppercase">projects</span>
+          <span className="font-mono text-[10px] text-[#475569] tracking-[0.25em] uppercase">projects</span>
         </div>
         <h2 className="font-display text-4xl font-bold tracking-tight text-[#E2E8F0]">
           Selected Work
@@ -42,7 +42,7 @@ export default function Projects() {
               className={`font-mono text-[11px] px-4 py-2 border transition-all duration-200 tracking-widest uppercase ${
                 active === f
                   ? 'border-accent/50 text-accent bg-accent/5'
-                  : 'border-[#1A2236] text-[#2D3748] hover:border-[#2D3748] hover:text-[#64748B]'
+                  : 'border-[#1A2236] text-[#64748B] hover:border-[#475569] hover:text-[#94A3B8]'
               }`}
             >
               {f}
@@ -137,17 +137,17 @@ function FeaturedCard({ project }) {
             <span className="font-mono text-[10px] text-accent tracking-[0.25em] uppercase border border-accent/30 px-2 py-0.5">
               Featured
             </span>
-            <span className="font-mono text-[10px] text-[#2D3748] tracking-widest">{project.year}</span>
+            <span className="font-mono text-[10px] text-[#64748B] tracking-widest">{project.year}</span>
           </div>
 
           <h3 className="font-display text-2xl font-bold text-[#E2E8F0]">{project.title}</h3>
 
-          <p className="mt-4 text-[#475569] text-sm leading-relaxed font-light flex-1">
+          <p className="mt-4 text-[#94A3B8] text-sm leading-relaxed font-light flex-1">
             {project.description}
           </p>
 
           {project.longDescription && (
-            <p className="mt-3 text-[#334155] text-xs leading-relaxed font-light border-l border-[#1A2236] pl-3">
+            <p className="mt-3 text-[#64748B] text-xs leading-relaxed font-light border-l border-[#1A2236] pl-3">
               {project.longDescription}
             </p>
           )}
@@ -156,7 +156,7 @@ function FeaturedCard({ project }) {
             {project.tags.map(tag => (
               <span
                 key={tag}
-                className="font-mono text-[10px] px-2 py-1 bg-[#0C1018] border border-[#1A2236] text-[#334155]"
+                className="font-mono text-[10px] px-2 py-1 bg-[#0C1018] border border-[#1A2236] text-[#64748B]"
               >
                 {tag}
               </span>
@@ -185,7 +185,7 @@ function FeaturedCard({ project }) {
               </a>
             )}
             {!project.github && !project.live && (
-              <span className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest border border-[#1A2236] text-[#1E293B] px-4 py-2">
+              <span className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest border border-[#1A2236] text-[#475569] px-4 py-2">
                 <FiLock size={11} /> Private Repo
               </span>
             )}
@@ -224,7 +224,7 @@ function ProjectCard({ project }) {
         <div className="flex items-center justify-between mb-5">
           <div className="flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-accent/40" />
-            <span className="font-mono text-[10px] text-[#2D3748] tracking-widest">{project.year}</span>
+            <span className="font-mono text-[10px] text-[#64748B] tracking-widest">{project.year}</span>
           </div>
           <div className="flex gap-3">
             {project.github && (
@@ -234,7 +234,7 @@ function ProjectCard({ project }) {
                 rel="noopener noreferrer"
                 aria-label="GitHub"
                 onClick={e => e.stopPropagation()}
-                className="text-[#1E293B] hover:text-accent transition-colors duration-200"
+                className="text-[#475569] hover:text-accent transition-colors duration-200"
               >
                 <FiGithub size={15} />
               </a>
@@ -246,7 +246,7 @@ function ProjectCard({ project }) {
                 rel="noopener noreferrer"
                 aria-label="Live"
                 onClick={e => e.stopPropagation()}
-                className="text-[#1E293B] hover:text-accent transition-colors duration-200"
+                className="text-[#475569] hover:text-accent transition-colors duration-200"
               >
                 <FiExternalLink size={15} />
               </a>
@@ -260,7 +260,7 @@ function ProjectCard({ project }) {
         </h3>
 
         {/* Description */}
-        <p className="mt-2 text-[#334155] text-sm leading-relaxed flex-1 font-light">
+        <p className="mt-2 text-[#94A3B8] text-sm leading-relaxed flex-1 font-light">
           {project.description}
         </p>
 
@@ -269,7 +269,7 @@ function ProjectCard({ project }) {
           {project.tags.map(tag => (
             <span
               key={tag}
-              className="font-mono text-[10px] px-2 py-1 bg-[#0C1018] border border-[#1A2236] text-[#2D3748] group-hover:border-[#243050] transition-colors duration-200"
+              className="font-mono text-[10px] px-2 py-1 bg-[#0C1018] border border-[#1A2236] text-[#64748B] group-hover:border-[#243050] transition-colors duration-200"
             >
               {tag}
             </span>
@@ -295,9 +295,9 @@ function ComingSoonCard({ project }) {
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-2">
           <span className="w-1.5 h-1.5 rounded-full bg-[#1A2236]" />
-          <span className="font-mono text-[10px] text-[#1E293B] tracking-widest">{project.year}</span>
+          <span className="font-mono text-[10px] text-[#475569] tracking-widest">{project.year}</span>
         </div>
-        <span className="font-mono text-[9px] px-2 py-0.5 border border-[#1A2236] text-[#1E293B] tracking-widest uppercase">
+        <span className="font-mono text-[9px] px-2 py-0.5 border border-[#1A2236] text-[#475569] tracking-widest uppercase">
           Coming Soon
         </span>
       </div>
@@ -306,12 +306,12 @@ function ComingSoonCard({ project }) {
         {project.title}
       </h3>
 
-      <p className="mt-2 text-[#1E293B] text-sm leading-relaxed flex-1 font-light">
+      <p className="mt-2 text-[#64748B] text-sm leading-relaxed flex-1 font-light">
         {project.description}
       </p>
 
       <div className="mt-5 flex flex-wrap gap-1.5">
-        <span className="font-mono text-[10px] px-2 py-1 bg-[#0C1018] border border-[#131B27] text-[#1A2236]">
+        <span className="font-mono text-[10px] px-2 py-1 bg-[#0C1018] border border-[#131B27] text-[#334155]">
           {project.category === 'software' ? 'Software' : 'Hardware'}
         </span>
       </div>

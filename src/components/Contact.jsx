@@ -62,7 +62,7 @@ export default function Contact() {
         <div className="flex items-center gap-3 mb-2">
           <span className="font-mono text-[10px] text-accent/50 tracking-[0.25em] uppercase">03</span>
           <span className="w-8 h-px bg-accent/20" />
-          <span className="font-mono text-[10px] text-[#2D3748] tracking-[0.25em] uppercase">contact</span>
+          <span className="font-mono text-[10px] text-[#475569] tracking-[0.25em] uppercase">contact</span>
         </div>
         <h2 className="font-display text-4xl font-bold tracking-tight text-[#E2E8F0]">
           Get In Touch
@@ -92,11 +92,11 @@ export default function Contact() {
                   transition={{ duration: 0.2 }}
                   className="flex items-center gap-4 group"
                 >
-                  <div className="w-10 h-10 border border-[#1A2236] flex items-center justify-center text-[#2D3748] group-hover:border-accent/40 group-hover:text-accent transition-all duration-200">
+                  <div className="w-10 h-10 border border-[#1A2236] flex items-center justify-center text-[#475569] group-hover:border-accent/40 group-hover:text-accent transition-all duration-200">
                     <Icon size={15} />
                   </div>
                   <div>
-                    <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#2D3748]">
+                    <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#64748B]">
                       {label}
                     </p>
                     <p className="font-mono text-sm text-[#475569] group-hover:text-[#64748B] transition-colors duration-200">

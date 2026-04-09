@@ -64,7 +64,7 @@ export default function Hero() {
         {/* Bio */}
         <motion.p
           {...up(0.6)}
-          className="mt-8 text-[#64748B] text-lg max-w-[520px] leading-relaxed font-light"
+          className="mt-8 text-[#94A3B8] text-lg max-w-[520px] leading-relaxed font-light"
         >
           CS + CE @ USC (GPA 3.91). Building at the intersection of silicon and software —
           from VLSI datapaths and embedded systems to AI-native iOS apps.
@@ -97,13 +97,13 @@ export default function Hero() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={label}
-              className="text-[#1E293B] hover:text-accent transition-colors duration-200"
+              className="text-[#475569] hover:text-accent transition-colors duration-200"
             >
               <Icon size={19} />
             </a>
           ))}
           <span className="w-px h-4 bg-[#1A2236]" />
-          <span className="font-mono text-[10px] text-[#1E293B] tracking-[0.2em] uppercase">
+          <span className="font-mono text-[10px] text-[#475569] tracking-[0.2em] uppercase">
             Open to opportunities
           </span>
         </motion.div>
@@ -114,7 +114,7 @@ export default function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.8, duration: 1 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[#1A2236]"
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[#2D3748]"
       >
         <span className="font-mono text-[9px] tracking-[0.4em] uppercase">scroll</span>
         <motion.div

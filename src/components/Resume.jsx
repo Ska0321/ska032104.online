@@ -11,7 +11,7 @@ export default function Resume() {
         <div className="flex items-center gap-3 mb-2">
           <span className="font-mono text-[10px] text-accent/50 tracking-[0.25em] uppercase">02</span>
           <span className="w-8 h-px bg-accent/20" />
-          <span className="font-mono text-[10px] text-[#2D3748] tracking-[0.25em] uppercase">resume</span>
+          <span className="font-mono text-[10px] text-[#475569] tracking-[0.25em] uppercase">resume</span>
         </div>
         <div className="flex items-end justify-between flex-wrap gap-4">
           <h2 className="font-display text-4xl font-bold tracking-tight text-[#E2E8F0]">
@@ -21,7 +21,7 @@ export default function Resume() {
             href="/resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest border border-[#1A2236] text-[#334155] px-4 py-2 hover:border-accent/40 hover:text-accent transition-all duration-200"
+            className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest border border-[#1A2236] text-[#64748B] px-4 py-2 hover:border-accent/40 hover:text-accent transition-all duration-200"
           >
             <FiDownload size={12} />
             Download CV
@@ -49,14 +49,14 @@ export default function Resume() {
             <div className="space-y-8">
               {skills.map(cat => (
                 <div key={cat.category}>
-                  <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#2D3748] mb-3">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#64748B] mb-3">
                     {cat.category}
                   </p>
                   <div className="flex flex-wrap gap-2">
                     {cat.items.map(item => (
                       <span
                         key={item}
-                        className="font-mono text-[11px] px-3 py-1.5 bg-[#0C1018] border border-[#1A2236] text-[#475569] hover:border-accent/20 hover:text-[#64748B] transition-all duration-200 cursor-default"
+                        className="font-mono text-[11px] px-3 py-1.5 bg-[#0C1018] border border-[#1A2236] text-[#94A3B8] hover:border-accent/20 hover:text-[#B0BEC5] transition-all duration-200 cursor-default"
                       >
                         {item}
                       </span>
@@ -74,7 +74,7 @@ export default function Resume() {
 
 function ColHeader({ label, className = '' }) {
   return (
-    <p className={`font-mono text-[10px] uppercase tracking-[0.25em] text-[#2D3748] mb-6 ${className}`}>
+    <p className={`font-mono text-[10px] uppercase tracking-[0.25em] text-[#64748B] mb-6 ${className}`}>
       {label}
     </p>
   )
@@ -103,16 +103,16 @@ function TimelineItem({ item, isEducation }) {
           <h4 className="font-display text-[#CBD5E1] font-semibold text-sm">
             {item.role || item.degree}
           </h4>
-          <p className="font-mono text-[11px] text-[#2D3748] mt-0.5">
+          <p className="font-mono text-[11px] text-[#64748B] mt-0.5">
             {item.company || item.school}
           </p>
         </div>
-        <span className="font-mono text-[10px] text-[#1E293B] whitespace-nowrap pt-0.5">
+        <span className="font-mono text-[10px] text-[#475569] whitespace-nowrap pt-0.5">
           {item.period}
         </span>
       </div>
 
-      <p className="text-[#334155] text-sm leading-relaxed mt-2 font-light">
+      <p className="text-[#94A3B8] text-sm leading-relaxed mt-2 font-light">
         {item.description}
       </p>
 
@@ -121,7 +121,7 @@ function TimelineItem({ item, isEducation }) {
           {item.tags.map(tag => (
             <span
               key={tag}
-              className="font-mono text-[10px] px-2 py-0.5 bg-[#0C1018] border border-[#1A2236] text-[#2D3748]"
+              className="font-mono text-[10px] px-2 py-0.5 bg-[#0C1018] border border-[#1A2236] text-[#475569]"
             >
               {tag}
             </span>
