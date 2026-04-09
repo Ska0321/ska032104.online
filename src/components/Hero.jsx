@@ -2,9 +2,9 @@ import { motion } from 'framer-motion'
 import { FiGithub, FiLinkedin, FiMail, FiArrowDown } from 'react-icons/fi'
 
 const SOCIALS = [
-  { icon: FiGithub,   href: 'https://github.com/Ska0321',           label: 'GitHub'   },
-  { icon: FiLinkedin, href: 'https://linkedin.com/in/yourusername', label: 'LinkedIn' },
-  { icon: FiMail,     href: 'mailto:your@email.com',                label: 'Email'    },
+  { icon: FiGithub,   href: 'https://github.com/Ska0321',             label: 'GitHub'   },
+  { icon: FiLinkedin, href: 'https://linkedin.com/in/alexclc',        label: 'LinkedIn' },
+  { icon: FiMail,     href: 'mailto:alexchen032104@gmail.com',        label: 'Email'    },
 ]
 
 const up = (delay = 0) => ({
@@ -48,7 +48,7 @@ export default function Hero() {
           className="mt-5 font-display font-bold leading-[0.9] tracking-tight text-[#E2E8F0]"
           style={{ fontSize: 'clamp(3.5rem, 9vw, 7rem)' }}
         >
-          Your Name {/* ← replace */}
+          Alex Chen
         </motion.h1>
 
         {/* Title ghost */}
@@ -64,10 +64,10 @@ export default function Hero() {
         {/* Bio */}
         <motion.p
           {...up(0.6)}
-          className="mt-8 text-[#64748B] text-lg max-w-[480px] leading-relaxed font-light"
+          className="mt-8 text-[#64748B] text-lg max-w-[520px] leading-relaxed font-light"
         >
-          Building at the intersection of software and silicon — from embedded
-          firmware to full-stack applications.
+          CS + CE @ USC (GPA 3.91). Building at the intersection of silicon and software —
+          from VLSI datapaths and embedded systems to AI-native iOS apps.
         </motion.p>
 
         {/* CTAs */}
@@ -79,10 +79,12 @@ export default function Hero() {
             View Projects
           </a>
           <a
-            href="#contact"
+            href="/resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
             className="px-7 py-3 border border-[#1A2236] text-[#64748B] text-sm tracking-wide hover:border-[#2D3748] hover:text-[#E2E8F0] transition-all duration-200"
           >
-            Contact Me
+            Download CV
           </a>
         </motion.div>
 
@@ -102,7 +104,7 @@ export default function Hero() {
           ))}
           <span className="w-px h-4 bg-[#1A2236]" />
           <span className="font-mono text-[10px] text-[#1E293B] tracking-[0.2em] uppercase">
-            Available for work
+            Open to opportunities
           </span>
         </motion.div>
       </div>

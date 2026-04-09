@@ -12,14 +12,14 @@ const SOCIALS = [
   {
     icon: FiLinkedin,
     label: 'LinkedIn',
-    href: 'https://linkedin.com/in/yourusername',
-    handle: 'yourusername', // ← replace
+    href: 'https://linkedin.com/in/alexclc',
+    handle: 'linkedin.com/in/alexclc',
   },
   {
     icon: FiMail,
     label: 'Email',
-    href: 'mailto:your@email.com',
-    handle: 'your@email.com', // ← replace
+    href: 'mailto:alexchen032104@gmail.com',
+    handle: 'alexchen032104@gmail.com',
   },
 ]
 
@@ -31,7 +31,7 @@ export default function Contact() {
     e.preventDefault()
     setStatus('sending')
     try {
-      const res = await fetch('https://formspree.io/f/YOUR_FORM_ID', { // ← replace
+      const res = await fetch('https://formspree.io/f/YOUR_FORM_ID', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify(form),
@@ -77,8 +77,8 @@ export default function Contact() {
               <span className="text-accent">something</span>.
             </h3>
             <p className="mt-4 text-[#475569] leading-relaxed max-w-sm font-light">
-              Whether it's a software system, an embedded device, or anything in
-              between — I'm always open to interesting problems.
+              Whether it's a hardware system, an embedded device, an AI application, or
+              anything in between — I'm always open to interesting problems.
             </p>
 
             <div className="mt-10 space-y-4">
@@ -146,7 +146,7 @@ export default function Contact() {
 
             {status === 'error' && (
               <p className="font-mono text-xs text-red-500/80">
-                Something went wrong. Try emailing directly.
+                Something went wrong. Try emailing directly at alexchen032104@gmail.com
               </p>
             )}
             {status === 'sent' && (
