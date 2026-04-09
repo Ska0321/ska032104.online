@@ -70,8 +70,9 @@ function FeaturedCard({ project }) {
   const [idx, setIdx] = useState(0)
   const images = project.images || []
 
-  const prev = () => setIdx(i => (i - 1 + images.length) % images.length)
-  const next = () => setIdx(i => (i + 1) % images.length)
+  const STEP = 3
+  const prev = () => setIdx(i => (i - STEP + images.length) % images.length)
+  const next = () => setIdx(i => (i + STEP) % images.length)
 
   return (
     <motion.div
@@ -83,33 +84,31 @@ function FeaturedCard({ project }) {
     >
       <div className="grid grid-cols-1 lg:grid-cols-2">
 
-        {/* Image carousel — two photos side by side */}
+        {/* Image carousel — three photos side by side */}
         <div className="relative bg-[#070C14] flex items-center justify-center overflow-hidden min-h-[320px] lg:min-h-[440px]">
           <AnimatePresence mode="wait">
             <motion.div
               key={idx}
-              className="flex items-center justify-center gap-3 w-full h-full px-10 py-4"
-              initial={{ opacity: 0, x: 16 }}
+              className="flex items-center justify-center gap-2 w-full h-full px-8 py-4"
+              initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -16 }}
+              exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.3 }}
             >
-              <img
-                src={images[idx]}
-                alt={`${project.title} screenshot ${idx + 1}`}
-                className="h-auto w-auto max-h-[380px] max-w-[46%] object-contain"
-              />
-              {images[(idx + 1) % images.length] && (
+              {[0, 1, 2].map(offset => (
                 <img
-                  src={images[(idx + 1) % images.length]}
-                  alt={`${project.title} screenshot ${idx + 2}`}
-                  className="h-auto w-auto max-h-[380px] max-w-[46%] object-contain opacity-70"
+                  key={offset}
+                  src={images[(idx + offset) % images.length]}
+                  alt={`${project.title} screenshot ${idx + offset + 1}`}
+                  className={`h-auto w-auto max-h-[380px] max-w-[30%] object-contain transition-opacity duration-200 ${
+                    offset === 1 ? 'opacity-100' : 'opacity-60'
+                  }`}
                 />
-              )}
+              ))}
             </motion.div>
           </AnimatePresence>
 
-          {images.length > 2 && (
+          {images.length > 3 && (
             <>
               <button
                 onClick={prev}
@@ -126,14 +125,14 @@ function FeaturedCard({ project }) {
                 <FiChevronRight size={13} />
               </button>
 
-              {/* Dots */}
+              {/* Dots — one per group of 3 */}
               <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
-                {images.map((_, i) => (
+                {Array.from({ length: Math.ceil(images.length / STEP) }).map((_, i) => (
                   <button
                     key={i}
-                    onClick={() => setIdx(i)}
+                    onClick={() => setIdx(i * STEP)}
                     className={`w-1.5 h-1.5 rounded-full transition-all duration-200 ${
-                      i === idx ? 'bg-accent' : 'bg-[#1A2236]'
+                      Math.floor(idx / STEP) === i ? 'bg-accent' : 'bg-[#1A2236]'
                     }`}
                   />
                 ))}
