@@ -160,26 +160,7 @@ function FeaturedCard({ project }) {
             </div>
           </div>
 
-          <p className="mt-3 text-[#94A3B8] text-sm leading-relaxed font-light">
-            {project.description}
-          </p>
-
-          {/* Onboarding taglines — mirrors the app's welcome screens */}
-          <div className="mt-5 space-y-2">
-            {[
-              { face: '[ ^ _ ^ ]', label: 'A personal AI conscience companion' },
-              { face: '[ # _ # ]', label: 'Private by design — no cloud, no servers' },
-              { face: '[ * _ * ]', label: 'Train your self — your digital conscience grows' },
-              { face: '[ ★ _ ★ ]', label: 'Your hope is your north star' },
-            ].map(({ face, label }) => (
-              <div key={label} className="flex items-center gap-3">
-                <span className="font-mono text-[10px] text-accent/70 whitespace-nowrap">{face}</span>
-                <span className="font-mono text-[10px] text-[#475569] tracking-wide">{label}</span>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-5 flex flex-wrap gap-1.5">
+          <div className="mt-3 flex flex-wrap gap-1.5">
             {project.tags.map(tag => (
               <span
                 key={tag}
@@ -243,7 +224,7 @@ function ProjectCard({ project }) {
     >
       {/* Image / Carousel */}
       {images.length > 0 && (
-        <div className="relative h-44 bg-[#070C14] overflow-hidden">
+        <div className="relative h-60 bg-[#070C14] overflow-hidden">
           <AnimatePresence mode="wait">
             <motion.img
               key={idx}
@@ -327,11 +308,6 @@ function ProjectCard({ project }) {
           {project.title}
         </h3>
 
-        {/* Description */}
-        <p className="mt-2 text-[#94A3B8] text-sm leading-relaxed flex-1 font-light">
-          {project.description}
-        </p>
-
         {/* Tags */}
         <div className="mt-5 flex flex-wrap gap-1.5">
           {project.tags.map(tag => (
@@ -374,11 +350,7 @@ function ComingSoonCard({ project }) {
         {project.title}
       </h3>
 
-      <p className="mt-2 text-[#64748B] text-sm leading-relaxed flex-1 font-light">
-        {project.description}
-      </p>
-
-      <div className="mt-5 flex flex-wrap gap-1.5">
+      <div className="mt-4 flex flex-wrap gap-1.5">
         <span className="font-mono text-[10px] px-2 py-1 bg-[#0C1018] border border-[#131B27] text-[#334155]">
           {project.category === 'software' ? 'Software' : 'Hardware'}
         </span>

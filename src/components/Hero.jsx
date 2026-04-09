@@ -54,7 +54,7 @@ export default function Hero() {
         {/* Title ghost */}
         <motion.h2
           {...up(0.45)}
-          className="mt-3 font-display font-bold leading-[0.95] tracking-tight text-[#1A2236]"
+          className="mt-3 font-display font-bold leading-[0.95] tracking-tight text-[#4A7FA8]"
           style={{ fontSize: 'clamp(2rem, 5.5vw, 4.5rem)' }}
         >
           Software &amp; Hardware
@@ -66,8 +66,7 @@ export default function Hero() {
           {...up(0.6)}
           className="mt-8 text-[#94A3B8] text-lg max-w-[520px] leading-relaxed font-light"
         >
-          CS + CE @ USC (GPA 3.91). Building at the intersection of silicon and software —
-          from VLSI datapaths and embedded systems to AI-native iOS apps.
+          CS + CE @ USC. Silicon to software — VLSI, embedded systems, AI-native apps.
         </motion.p>
 
         {/* CTAs */}
