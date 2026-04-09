@@ -14,7 +14,7 @@ export default function Resume() {
           <span className="font-mono text-[10px] text-[#475569] tracking-[0.25em] uppercase">resume</span>
         </div>
         <div className="flex items-end justify-between flex-wrap gap-4">
-          <h2 className="font-display text-4xl font-bold tracking-tight text-[#E2E8F0]">
+          <h2 className="font-display text-5xl font-bold tracking-tight text-[#E2E8F0]">
             Experience &amp; Skills
           </h2>
           <a

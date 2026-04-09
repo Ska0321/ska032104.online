@@ -26,7 +26,7 @@ export default function Projects() {
           <span className="w-8 h-px bg-accent/20" />
           <span className="font-mono text-[10px] text-[#475569] tracking-[0.25em] uppercase">projects</span>
         </div>
-        <h2 className="font-display text-4xl font-bold tracking-tight text-[#E2E8F0]">
+        <h2 className="font-display text-5xl font-bold tracking-tight text-[#E2E8F0]">
           Selected Work
         </h2>
 
@@ -83,40 +83,51 @@ function FeaturedCard({ project }) {
     >
       <div className="grid grid-cols-1 lg:grid-cols-2">
 
-        {/* Image carousel */}
+        {/* Image carousel — two photos side by side */}
         <div className="relative bg-[#070C14] flex items-center justify-center overflow-hidden min-h-[320px] lg:min-h-[440px]">
           <AnimatePresence mode="wait">
-            <motion.img
+            <motion.div
               key={idx}
-              src={images[idx]}
-              alt={`${project.title} screenshot ${idx + 1}`}
-              initial={{ opacity: 0, scale: 1.03 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.97 }}
-              transition={{ duration: 0.35 }}
-              className="h-full w-auto max-h-[440px] object-contain"
-            />
+              className="flex items-center justify-center gap-3 w-full h-full px-10 py-4"
+              initial={{ opacity: 0, x: 16 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -16 }}
+              transition={{ duration: 0.3 }}
+            >
+              <img
+                src={images[idx]}
+                alt={`${project.title} screenshot ${idx + 1}`}
+                className="h-auto w-auto max-h-[380px] max-w-[46%] object-contain"
+              />
+              {images[(idx + 1) % images.length] && (
+                <img
+                  src={images[(idx + 1) % images.length]}
+                  alt={`${project.title} screenshot ${idx + 2}`}
+                  className="h-auto w-auto max-h-[380px] max-w-[46%] object-contain opacity-70"
+                />
+              )}
+            </motion.div>
           </AnimatePresence>
 
-          {images.length > 1 && (
+          {images.length > 2 && (
             <>
               <button
                 onClick={prev}
                 aria-label="Previous"
-                className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center bg-bg/80 border border-[#1A2236] text-[#64748B] hover:text-accent hover:border-accent/40 transition-all duration-200"
+                className="absolute left-2 top-1/2 -translate-y-1/2 w-7 h-7 flex items-center justify-center bg-bg/80 border border-[#1A2236] text-[#64748B] hover:text-accent hover:border-accent/40 transition-all duration-200"
               >
-                <FiChevronLeft size={14} />
+                <FiChevronLeft size={13} />
               </button>
               <button
                 onClick={next}
                 aria-label="Next"
-                className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center bg-bg/80 border border-[#1A2236] text-[#64748B] hover:text-accent hover:border-accent/40 transition-all duration-200"
+                className="absolute right-2 top-1/2 -translate-y-1/2 w-7 h-7 flex items-center justify-center bg-bg/80 border border-[#1A2236] text-[#64748B] hover:text-accent hover:border-accent/40 transition-all duration-200"
               >
-                <FiChevronRight size={14} />
+                <FiChevronRight size={13} />
               </button>
 
               {/* Dots */}
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5">
+              <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
                 {images.map((_, i) => (
                   <button
                     key={i}
@@ -135,17 +146,20 @@ function FeaturedCard({ project }) {
         <div className="p-8 lg:p-10 flex flex-col">
 
           {/* Logo + badge row */}
-          <div className="flex items-center gap-3 mb-5">
+          <div className="flex items-center gap-4 mb-6">
             {project.logo && (
-              <img src={project.logo} alt="Altarego logo" className="w-8 h-8 object-contain" />
+              <img src={project.logo} alt="Altarego logo" className="w-14 h-14 object-contain" />
             )}
-            <span className="font-mono text-[10px] text-accent tracking-[0.25em] uppercase border border-accent/30 px-2 py-0.5">
-              Featured
-            </span>
-            <span className="font-mono text-[10px] text-[#64748B] tracking-widest">{project.year}</span>
+            <div className="flex flex-col gap-1.5">
+              <div className="flex items-center gap-2">
+                <span className="font-mono text-[10px] text-accent tracking-[0.25em] uppercase border border-accent/30 px-2 py-0.5">
+                  Featured
+                </span>
+                <span className="font-mono text-[10px] text-[#64748B] tracking-widest">{project.year}</span>
+              </div>
+              <h3 className="font-display text-3xl font-bold text-[#E2E8F0]">{project.title}</h3>
+            </div>
           </div>
-
-          <h3 className="font-display text-2xl font-bold text-[#E2E8F0]">{project.title}</h3>
 
           <p className="mt-3 text-[#94A3B8] text-sm leading-relaxed font-light">
             {project.description}
@@ -212,6 +226,12 @@ function FeaturedCard({ project }) {
 
 /* ─── Standard card ─────────────────────────────────────────── */
 function ProjectCard({ project }) {
+  const images = project.images || (project.image ? [project.image] : [])
+  const [idx, setIdx] = useState(0)
+
+  const prev = (e) => { e.stopPropagation(); setIdx(i => (i - 1 + images.length) % images.length) }
+  const next = (e) => { e.stopPropagation(); setIdx(i => (i + 1) % images.length) }
+
   return (
     <motion.article
       layout
@@ -222,14 +242,49 @@ function ProjectCard({ project }) {
       whileHover={{ y: -3 }}
       className="group flex flex-col glass rounded-none overflow-hidden transition-all duration-300 cursor-default"
     >
-      {/* Image */}
-      {project.image && (
-        <div className="h-44 bg-[#070C14] overflow-hidden">
-          <img
-            src={project.image}
-            alt={project.title}
-            className="w-full h-full object-cover object-top opacity-80 group-hover:opacity-100 transition-opacity duration-300 group-hover:scale-105 transition-transform duration-500"
-          />
+      {/* Image / Carousel */}
+      {images.length > 0 && (
+        <div className="relative h-44 bg-[#070C14] overflow-hidden">
+          <AnimatePresence mode="wait">
+            <motion.img
+              key={idx}
+              src={images[idx]}
+              alt={`${project.title} ${idx + 1}`}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              className="w-full h-full object-cover object-top opacity-80 group-hover:opacity-100 transition-opacity duration-300 group-hover:scale-105 transition-transform duration-500"
+            />
+          </AnimatePresence>
+
+          {images.length > 1 && (
+            <>
+              <button
+                onClick={prev}
+                aria-label="Previous"
+                className="absolute left-2 top-1/2 -translate-y-1/2 w-6 h-6 flex items-center justify-center bg-bg/80 border border-[#1A2236] text-[#64748B] hover:text-accent hover:border-accent/40 transition-all duration-200 opacity-0 group-hover:opacity-100"
+              >
+                <FiChevronLeft size={11} />
+              </button>
+              <button
+                onClick={next}
+                aria-label="Next"
+                className="absolute right-2 top-1/2 -translate-y-1/2 w-6 h-6 flex items-center justify-center bg-bg/80 border border-[#1A2236] text-[#64748B] hover:text-accent hover:border-accent/40 transition-all duration-200 opacity-0 group-hover:opacity-100"
+              >
+                <FiChevronRight size={11} />
+              </button>
+              <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
+                {images.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={e => { e.stopPropagation(); setIdx(i) }}
+                    className={`w-1 h-1 rounded-full transition-all duration-200 ${i === idx ? 'bg-accent' : 'bg-[#1A2236]'}`}
+                  />
+                ))}
+              </div>
+            </>
+          )}
         </div>
       )}
 
@@ -269,7 +324,7 @@ function ProjectCard({ project }) {
         </div>
 
         {/* Title */}
-        <h3 className="font-display text-[#CBD5E1] font-semibold text-base group-hover:text-accent transition-colors duration-200">
+        <h3 className="font-display text-[#CBD5E1] font-semibold text-lg group-hover:text-accent transition-colors duration-200">
           {project.title}
         </h3>
 
@@ -316,7 +371,7 @@ function ComingSoonCard({ project }) {
         </span>
       </div>
 
-      <h3 className="font-display text-[#475569] font-semibold text-base">
+      <h3 className="font-display text-[#475569] font-semibold text-lg">
         {project.title}
       </h3>
 

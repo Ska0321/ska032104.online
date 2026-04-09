@@ -64,7 +64,7 @@ export default function Contact() {
           <span className="w-8 h-px bg-accent/20" />
           <span className="font-mono text-[10px] text-[#475569] tracking-[0.25em] uppercase">contact</span>
         </div>
-        <h2 className="font-display text-4xl font-bold tracking-tight text-[#E2E8F0]">
+        <h2 className="font-display text-5xl font-bold tracking-tight text-[#E2E8F0]">
           Get In Touch
         </h2>
 
@@ -76,7 +76,7 @@ export default function Contact() {
               Let's build{' '}
               <span className="text-accent">something</span>.
             </h3>
-            <p className="mt-4 text-[#475569] leading-relaxed max-w-sm font-light">
+            <p className="mt-4 text-[#94A3B8] leading-relaxed max-w-sm font-light">
               Whether it's a hardware system, an embedded device, an AI application, or
               anything in between — I'm always open to interesting problems.
             </p>
