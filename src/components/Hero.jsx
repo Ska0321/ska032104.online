@@ -54,7 +54,7 @@ export default function Hero() {
         {/* Title ghost */}
         <motion.h2
           {...up(0.45)}
-          className="mt-3 font-display font-bold leading-[0.95] tracking-tight text-[#4A7FA8]"
+          className="mt-3 font-display font-bold leading-[0.95] tracking-tight text-[#94A3B8]/40"
           style={{ fontSize: 'clamp(2rem, 5.5vw, 4.5rem)' }}
         >
           Software &amp; Hardware
@@ -64,7 +64,7 @@ export default function Hero() {
         {/* Bio */}
         <motion.p
           {...up(0.6)}
-          className="mt-8 text-[#94A3B8] text-lg max-w-[520px] leading-relaxed font-light"
+          className="mt-8 text-[#94A3B8] text-lg max-w-[520px] leading-relaxed"
         >
           CS + CE @ USC. Silicon to software — VLSI, embedded systems, AI-native apps.
         </motion.p>
@@ -113,7 +113,7 @@ export default function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.8, duration: 1 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[#2D3748]"
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[#475569]"
       >
         <span className="font-mono text-[9px] tracking-[0.4em] uppercase">scroll</span>
         <motion.div

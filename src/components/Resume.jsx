@@ -100,7 +100,7 @@ function TimelineItem({ item, isEducation }) {
 
       <div className="flex items-start justify-between gap-4 mb-1">
         <div>
-          <h4 className="font-display text-[#CBD5E1] font-semibold text-sm">
+          <h4 className="font-display text-[#CBD5E1] font-semibold text-[15px]">
             {item.role || item.degree}
           </h4>
           <p className="font-mono text-[11px] text-[#64748B] mt-0.5">

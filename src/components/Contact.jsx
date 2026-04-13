@@ -49,7 +49,7 @@ export default function Contact() {
 
   const inputCls = [
     'w-full bg-[#0C1018] border border-[#1A2236] text-[#E2E8F0]',
-    'placeholder-[#1E293B] px-4 py-3 text-sm font-mono',
+    'placeholder-[#334155] px-4 py-3 text-sm font-mono',
     'focus:outline-none focus:border-accent/40 focus:bg-[#0D1320]',
     'transition-all duration-200',
   ].join(' ')

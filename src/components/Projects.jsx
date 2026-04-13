@@ -160,7 +160,19 @@ function FeaturedCard({ project }) {
             </div>
           </div>
 
-          <div className="mt-3 flex flex-wrap gap-1.5">
+          {project.description && (
+            <p className="mt-5 text-[#94A3B8] text-sm leading-relaxed">
+              {project.description}
+            </p>
+          )}
+
+          {project.longDescription && (
+            <p className="mt-2 text-[#64748B] text-xs leading-relaxed font-mono">
+              {project.longDescription}
+            </p>
+          )}
+
+          <div className="mt-5 flex flex-wrap gap-1.5">
             {project.tags.map(tag => (
               <span
                 key={tag}
@@ -307,6 +319,13 @@ function ProjectCard({ project }) {
         <h3 className="font-display text-[#CBD5E1] font-semibold text-lg group-hover:text-accent transition-colors duration-200">
           {project.title}
         </h3>
+
+        {/* Description */}
+        {project.description && (
+          <p className="mt-2 text-[#64748B] text-xs leading-relaxed line-clamp-2">
+            {project.description}
+          </p>
+        )}
 
         {/* Tags */}
         <div className="mt-5 flex flex-wrap gap-1.5">

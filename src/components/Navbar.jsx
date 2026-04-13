@@ -73,7 +73,7 @@ export default function Navbar() {
               key={i}
               animate={anim}
               transition={{ duration: 0.2 }}
-              className="block w-5 h-px bg-[#4A5568]"
+              className="block w-5 h-px bg-[#64748B]"
             />
           ))}
         </button>
