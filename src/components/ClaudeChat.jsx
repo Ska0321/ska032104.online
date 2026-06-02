@@ -126,8 +126,13 @@ function LoadingDots() {
   )
 }
 
+const CORRECT_PASSWORD = '032104'
+
 export default function ClaudeChat() {
   const [open, setOpen] = useState(false)
+  const [authed, setAuthed] = useState(false)
+  const [passwordInput, setPasswordInput] = useState('')
+  const [passwordError, setPasswordError] = useState(false)
   const [messages, setMessages] = useState([])
   const [input, setInput] = useState('')
   const [files, setFiles] = useState([])
@@ -139,6 +144,18 @@ export default function ClaudeChat() {
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, loading])
+
+  function submitPassword(e) {
+    e.preventDefault()
+    if (passwordInput === CORRECT_PASSWORD) {
+      setAuthed(true)
+      setPasswordError(false)
+      setPasswordInput('')
+    } else {
+      setPasswordError(true)
+      setPasswordInput('')
+    }
+  }
 
   async function send() {
     const text = input.trim()
@@ -209,10 +226,7 @@ export default function ClaudeChat() {
     <>
       {/* Chat drawer */}
       {open && (
-        <div
-          className="fixed bottom-24 right-6 z-50 flex flex-col glass border border-[#1A2236] rounded-2xl shadow-2xl"
-          style={{ width: 380, height: 560 }}
-        >
+        <div className="fixed inset-x-4 top-4 bottom-24 z-50 flex flex-col glass border border-[#1A2236] rounded-2xl shadow-2xl">
           {/* Header */}
           <div className="flex items-center justify-between px-4 py-3 border-b border-[#1A2236]">
             <div className="flex items-center gap-2">
@@ -227,68 +241,96 @@ export default function ClaudeChat() {
             </button>
           </div>
 
-          {/* Messages */}
-          <div className="flex-1 overflow-y-auto px-4 py-3 scroll-smooth">
-            {messages.length === 0 && (
-              <p className="text-center text-gray-600 text-xs mt-8 font-mono">
-                Ask me anything about this portfolio
-              </p>
-            )}
-            {messages.map((msg, i) => (
-              <Message key={i} msg={msg} />
-            ))}
-            {loading && <LoadingDots />}
-            <div ref={bottomRef} />
-          </div>
-
-          {/* File previews */}
-          {files.length > 0 && (
-            <div className="flex flex-wrap gap-2 px-4 py-2 border-t border-[#1A2236]">
-              {files.map((f, i) => (
-                <FileChip
-                  key={i}
-                  file={f}
-                  onRemove={() => setFiles(prev => prev.filter((_, idx) => idx !== i))}
+          {!authed ? (
+            /* Password gate */
+            <div className="flex-1 flex flex-col items-center justify-center px-8 gap-4">
+              <p className="text-gray-400 text-sm text-center font-mono">Enter password to chat</p>
+              <form onSubmit={submitPassword} className="w-full flex flex-col gap-3">
+                <input
+                  type="password"
+                  value={passwordInput}
+                  onChange={e => { setPasswordInput(e.target.value); setPasswordError(false) }}
+                  placeholder="Password"
+                  autoFocus
+                  className="w-full bg-[#0C1018] border border-[#1A2236] rounded-xl px-4 py-2.5 text-sm text-gray-100 placeholder-gray-600 focus:outline-none focus:border-[#00D4AA]/50 transition-colors font-mono text-center tracking-widest"
                 />
-              ))}
+                {passwordError && (
+                  <p className="text-red-400 text-xs text-center">Incorrect password</p>
+                )}
+                <button
+                  type="submit"
+                  className="w-full bg-[#00D4AA] text-[#07090F] font-semibold rounded-xl py-2.5 text-sm hover:bg-[#00bfa0] transition-colors"
+                >
+                  Unlock
+                </button>
+              </form>
             </div>
-          )}
+          ) : (
+            <>
+              {/* Messages */}
+              <div className="flex-1 overflow-y-auto px-4 py-3 scroll-smooth">
+                {messages.length === 0 && (
+                  <p className="text-center text-gray-600 text-xs mt-8 font-mono">
+                    Ask me anything about this portfolio
+                  </p>
+                )}
+                {messages.map((msg, i) => (
+                  <Message key={i} msg={msg} />
+                ))}
+                {loading && <LoadingDots />}
+                <div ref={bottomRef} />
+              </div>
 
-          {/* Input row */}
-          <div className="flex items-end gap-2 px-3 py-3 border-t border-[#1A2236]">
-            <button
-              onClick={() => fileInputRef.current?.click()}
-              className="text-gray-500 hover:text-[#00D4AA] transition-colors pb-2 flex-shrink-0"
-              title="Attach image or PDF"
-            >
-              <FiPaperclip size={16} />
-            </button>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/jpeg,image/png,image/gif,image/webp,application/pdf"
-              multiple
-              className="hidden"
-              onChange={handleFileChange}
-            />
-            <textarea
-              ref={textareaRef}
-              value={input}
-              onChange={e => setInput(e.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder="Message…"
-              rows={1}
-              className="flex-1 bg-[#0C1018] border border-[#1A2236] rounded-xl px-3 py-2 text-sm text-gray-100 placeholder-gray-600 resize-none focus:outline-none focus:border-[#00D4AA]/50 transition-colors font-sans"
-              style={{ maxHeight: 100, overflowY: 'auto' }}
-            />
-            <button
-              onClick={send}
-              disabled={loading || (!input.trim() && files.length === 0)}
-              className="pb-2 flex-shrink-0 text-[#00D4AA] disabled:text-gray-700 hover:text-white transition-colors"
-            >
-              <FiSend size={16} />
-            </button>
-          </div>
+              {/* File previews */}
+              {files.length > 0 && (
+                <div className="flex flex-wrap gap-2 px-4 py-2 border-t border-[#1A2236]">
+                  {files.map((f, i) => (
+                    <FileChip
+                      key={i}
+                      file={f}
+                      onRemove={() => setFiles(prev => prev.filter((_, idx) => idx !== i))}
+                    />
+                  ))}
+                </div>
+              )}
+
+              {/* Input row */}
+              <div className="flex items-end gap-2 px-3 py-3 border-t border-[#1A2236]">
+                <button
+                  onClick={() => fileInputRef.current?.click()}
+                  className="text-gray-500 hover:text-[#00D4AA] transition-colors pb-2 flex-shrink-0"
+                  title="Attach image or PDF"
+                >
+                  <FiPaperclip size={16} />
+                </button>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/jpeg,image/png,image/gif,image/webp,application/pdf"
+                  multiple
+                  className="hidden"
+                  onChange={handleFileChange}
+                />
+                <textarea
+                  ref={textareaRef}
+                  value={input}
+                  onChange={e => setInput(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  placeholder="Message…"
+                  rows={1}
+                  className="flex-1 bg-[#0C1018] border border-[#1A2236] rounded-xl px-3 py-2 text-sm text-gray-100 placeholder-gray-600 resize-none focus:outline-none focus:border-[#00D4AA]/50 transition-colors font-sans"
+                  style={{ maxHeight: 100, overflowY: 'auto' }}
+                />
+                <button
+                  onClick={send}
+                  disabled={loading || (!input.trim() && files.length === 0)}
+                  className="pb-2 flex-shrink-0 text-[#00D4AA] disabled:text-gray-700 hover:text-white transition-colors"
+                >
+                  <FiSend size={16} />
+                </button>
+              </div>
+            </>
+          )}
         </div>
       )}
 
