@@ -1,15 +1,12 @@
 import { useState, useRef, useEffect } from 'react'
 import { FiMessageSquare, FiX, FiSend, FiPaperclip } from 'react-icons/fi'
 
-const ANTHROPIC_API = 'https://api.anthropic.com/v1/messages'
+const PROXY_URL = 'https://claude-proxy.aksdoodle.workers.dev'
 
 async function callClaude(messages) {
-  const res = await fetch(ANTHROPIC_API, {
+  const res = await fetch(PROXY_URL, {
     method: 'POST',
     headers: {
-      'x-api-key': import.meta.env.VITE_CLAUDE_API_KEY,
-      'anthropic-version': '2023-06-01',
-      'anthropic-dangerous-direct-browser-access': 'true',
       'content-type': 'application/json',
     },
     body: JSON.stringify({
