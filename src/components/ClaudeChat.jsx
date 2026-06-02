@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { FiMessageSquare, FiX, FiSend, FiPaperclip } from 'react-icons/fi'
 
-const PROXY_URL = 'https://claude-proxy.aksdoodle.workers.dev'
+const PROXY_URL = 'https://api.ska032104.online'
 
 async function callClaude(messages) {
   const res = await fetch(PROXY_URL, {
