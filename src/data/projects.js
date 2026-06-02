@@ -35,6 +35,7 @@ export const projects = [
     github: null,
     live: null,
     year: '2026',
+    featured: true,
     images: [
       '/projects/pawstation-1.png',
       '/projects/pawstation-2.png',

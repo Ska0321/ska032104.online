@@ -39,18 +39,51 @@ Single-page app, smooth-scroll between sections. No routing library needed.
 
 **All content lives in `src/data/`** — edit `projects.js` and `resume.js` to update the site without touching components.
 
-## Customization Checklist
+## Design System
 
-- `src/data/projects.js` — replace placeholder projects with real ones
-- `src/data/resume.js` — replace placeholder experience, education, skills
-- `src/components/Hero.jsx` — replace "Your Name" and social links/email
-- `src/components/Contact.jsx` — replace Formspree ID (`YOUR_FORM_ID`), LinkedIn, email
-- `src/components/Footer.jsx` — update LinkedIn link
-- `public/resume.pdf` — add CV PDF (linked from Navbar CV button + Resume Download CV button)
+Custom Tailwind tokens — use these instead of raw hex values:
 
-## Contact Form Setup
+| Token | Value | Usage |
+|-------|-------|-------|
+| `bg-bg` | `#07090F` | Page background |
+| `bg-surface` | `#0C1018` | Elevated surfaces |
+| `bg-card` | `#111826` | Card backgrounds |
+| `border-border` | `#1A2236` | Default borders |
+| `text-accent` / `bg-accent` | `#00D4AA` | Teal accent — CTAs, highlights |
 
-The form uses [Formspree](https://formspree.io) (free tier, no backend needed):
-1. Sign up at formspree.io
-2. Create a new form, copy the form ID
-3. Replace `YOUR_FORM_ID` in `src/components/Contact.jsx`
+Fonts: `font-display` (Space Grotesk, headings) · `font-sans` (IBM Plex Sans, body) · `font-mono` (JetBrains Mono, labels/tags).
+
+CSS utilities defined in `src/index.css`: `.glass` (glassmorphism card), `.bg-grid` (dot-grid pattern), `.bg-vignette` (edge fade), `.glow-accent`.
+
+## Project Data Schema (`src/data/projects.js`)
+
+Each project object supports:
+```js
+{
+  id,          // unique number
+  title,
+  description, // short (shown on card)
+  longDescription, // optional, shown on featured card
+  tags,        // string[]
+  category,    // 'software' | 'hardware'
+  year,        // string
+  featured,    // boolean — only ONE project should be featured; renders as FeaturedCard
+  github,      // URL or null → shows lock icon when both null
+  live,        // URL or null
+  logo,        // path to image (featured card only)
+  images,      // string[] — paths under /projects/; featured card shows 3 at a time
+  image,       // single image path (non-featured fallback)
+  comingSoon,  // boolean — renders dimmed ComingSoonCard, no image needed
+}
+```
+
+Images live in `public/projects/` and are referenced as `/projects/filename.ext`.
+
+## Content Files
+
+- `src/data/projects.js` — project cards (see schema above)
+- `src/data/resume.js` — exports `experience[]`, `education[]`, `skills[]`
+- `src/components/Hero.jsx` — name, tagline, social links
+- `src/components/Contact.jsx` — Formspree ID, LinkedIn, email
+- `src/components/Footer.jsx` — LinkedIn link
+- `public/resume.pdf` — CV linked from Navbar and Resume section
