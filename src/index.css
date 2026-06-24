@@ -57,3 +57,77 @@
     box-shadow: 0 0 40px rgba(0, 212, 170, 0.12), 0 0 80px rgba(0, 212, 170, 0.06);
   }
 }
+
+/* Markdown rendering inside chat messages */
+.markdown {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  word-break: break-word;
+}
+.markdown > :first-child { margin-top: 0; }
+.markdown > :last-child { margin-bottom: 0; }
+.markdown p { margin: 0.5rem 0; }
+.markdown h1, .markdown h2, .markdown h3, .markdown h4 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 1rem 0 0.5rem;
+  color: #F1F5F9;
+}
+.markdown h1 { font-size: 1.25rem; }
+.markdown h2 { font-size: 1.125rem; }
+.markdown h3 { font-size: 1rem; }
+.markdown h4 { font-size: 0.9rem; }
+.markdown ul, .markdown ol { margin: 0.5rem 0; padding-left: 1.25rem; }
+.markdown ul { list-style: disc; }
+.markdown ol { list-style: decimal; }
+.markdown li { margin: 0.2rem 0; }
+.markdown li > ul, .markdown li > ol { margin: 0.2rem 0; }
+.markdown a { color: #00D4AA; text-decoration: underline; text-underline-offset: 2px; }
+.markdown a:hover { color: #2af0d0; }
+.markdown strong { color: #F1F5F9; font-weight: 600; }
+.markdown blockquote {
+  border-left: 3px solid #00D4AA;
+  padding-left: 0.75rem;
+  margin: 0.5rem 0;
+  color: #94A3B8;
+}
+.markdown code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8em;
+  background: rgba(0, 212, 170, 0.1);
+  color: #5eead4;
+  padding: 0.1rem 0.35rem;
+  border-radius: 0.25rem;
+}
+.markdown pre {
+  background: #0A0E16;
+  border: 1px solid #1A2236;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  margin: 0.6rem 0;
+  overflow-x: auto;
+}
+.markdown pre code {
+  background: none;
+  color: #E2E8F0;
+  padding: 0;
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+.markdown table {
+  border-collapse: collapse;
+  margin: 0.6rem 0;
+  width: 100%;
+  font-size: 0.8rem;
+  display: block;
+  overflow-x: auto;
+}
+.markdown th, .markdown td {
+  border: 1px solid #1A2236;
+  padding: 0.35rem 0.6rem;
+  text-align: left;
+}
+.markdown th { background: #111826; color: #F1F5F9; font-weight: 600; }
+.markdown hr { border: none; border-top: 1px solid #1A2236; margin: 0.75rem 0; }
+.markdown img { max-width: 100%; border-radius: 0.5rem; margin: 0.5rem 0; }

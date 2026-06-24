@@ -1,9 +1,23 @@
 import { useState, useRef, useEffect } from 'react'
 import { FiMessageSquare, FiX, FiSend, FiPaperclip } from 'react-icons/fi'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
+import { isImage, isPdf, fileKind, extractFileText } from '../lib/fileText'
 
 const PROXY_URL = 'https://api.ska032104.online'
 
+// Formats the browser accepts in the file picker.
+const ACCEPT = [
+  'image/jpeg', 'image/png', 'image/gif', 'image/webp', 'application/pdf',
+  '.xlsx', '.xls', '.xlsm', '.csv', '.ods',
+  '.docx',
+  '.pptx',
+  '.txt', '.md', '.markdown', '.json', '.log', '.rtf', 'text/plain',
+].join(',')
+
 async function callClaude(messages) {
+  // Send only the fields the API expects (strip display-only metadata).
+  const apiMessages = messages.map(({ role, content }) => ({ role, content }))
   const res = await fetch(PROXY_URL, {
     method: 'POST',
     headers: {
@@ -12,7 +26,7 @@ async function callClaude(messages) {
     body: JSON.stringify({
       model: 'claude-sonnet-4-6',
       max_tokens: 1024,
-      messages,
+      messages: apiMessages,
     }),
   })
   if (!res.ok) {
@@ -33,55 +47,68 @@ function fileToBase64(file) {
 }
 
 function FileChip({ file, onRemove }) {
-  const isImage = file.type.startsWith('image/')
+  const showImage = isImage(file)
   const [preview, setPreview] = useState(null)
 
   useEffect(() => {
-    if (isImage) {
+    if (showImage) {
       const url = URL.createObjectURL(file)
       setPreview(url)
       return () => URL.revokeObjectURL(url)
     }
-  }, [file, isImage])
+  }, [file, showImage])
 
   return (
     <div className="flex items-center gap-1 bg-[#1A2236] border border-[#1A2236] rounded-lg overflow-hidden pr-2 max-w-[160px]">
-      {isImage && preview ? (
+      {showImage && preview ? (
         <img src={preview} alt={file.name} className="h-8 w-8 object-cover flex-shrink-0" />
       ) : (
-        <div className="h-8 w-8 flex items-center justify-center bg-[#111826] flex-shrink-0 text-[#00D4AA] text-xs font-mono">
-          PDF
+        <div className="h-8 w-8 flex items-center justify-center bg-[#111826] flex-shrink-0 text-[#00D4AA] text-[10px] font-mono">
+          {fileKind(file)}
         </div>
       )}
       <span className="text-xs text-gray-400 truncate">{file.name}</span>
-      <button
-        onClick={onRemove}
-        className="ml-1 text-gray-500 hover:text-gray-200 flex-shrink-0"
-      >
-        <FiX size={12} />
-      </button>
+      {onRemove && (
+        <button
+          onClick={onRemove}
+          className="ml-1 text-gray-500 hover:text-gray-200 flex-shrink-0"
+        >
+          <FiX size={12} />
+        </button>
+      )}
+    </div>
+  )
+}
+
+function AttachmentTag({ name, kind }) {
+  return (
+    <div className="inline-flex items-center gap-1.5 mb-1.5 mr-1.5 bg-[#1A2236]/60 border border-[#1A2236] rounded-md px-2 py-1">
+      <span className="text-[10px] font-mono text-[#00D4AA]">{kind}</span>
+      <span className="text-xs text-gray-300 truncate max-w-[180px]">{name}</span>
     </div>
   )
 }
 
 function Message({ msg }) {
   const isUser = msg.role === 'user'
-  const textContent = Array.isArray(msg.content)
-    ? msg.content.find(c => c.type === 'text')?.text ?? ''
-    : msg.content
+
+  // For assistant messages the text lives in the content blocks; for user
+  // messages we keep the typed text separately so file context isn't shown.
+  const textContent =
+    msg.displayText !== undefined
+      ? msg.displayText
+      : Array.isArray(msg.content)
+        ? msg.content.find((c) => c.type === 'text')?.text ?? ''
+        : msg.content
 
   const imageContents = Array.isArray(msg.content)
-    ? msg.content.filter(c => c.type === 'image')
-    : []
-
-  const docContents = Array.isArray(msg.content)
-    ? msg.content.filter(c => c.type === 'document')
+    ? msg.content.filter((c) => c.type === 'image')
     : []
 
   return (
     <div className={`flex ${isUser ? 'justify-end' : 'justify-start'} mb-3`}>
       <div
-        className={`max-w-[85%] rounded-2xl px-3 py-2 text-sm leading-relaxed ${
+        className={`${isUser ? 'max-w-[85%]' : 'max-w-[92%]'} rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed ${
           isUser
             ? 'bg-[#00D4AA]/20 border border-[#00D4AA]/30 text-gray-100'
             : 'bg-[#0C1018] border border-[#1A2236] text-gray-200'
@@ -95,13 +122,21 @@ function Message({ msg }) {
             className="rounded-lg mb-2 max-h-32 object-cover"
           />
         ))}
-        {docContents.map((doc, i) => (
-          <div key={i} className="flex items-center gap-1 mb-2 text-xs text-[#00D4AA] font-mono">
-            <span>PDF</span>
-            <span className="text-gray-400">{doc.source.media_type}</span>
+        {msg.files?.length > 0 && (
+          <div className="flex flex-wrap">
+            {msg.files.map((f, i) => (
+              <AttachmentTag key={i} name={f.name} kind={f.kind} />
+            ))}
           </div>
-        ))}
-        {textContent && <p className="whitespace-pre-wrap">{textContent}</p>}
+        )}
+        {textContent &&
+          (isUser ? (
+            <p className="whitespace-pre-wrap">{textContent}</p>
+          ) : (
+            <div className="markdown">
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>{textContent}</ReactMarkdown>
+            </div>
+          ))}
       </div>
     </div>
   )
@@ -111,7 +146,7 @@ function LoadingDots() {
   return (
     <div className="flex justify-start mb-3">
       <div className="bg-[#0C1018] border border-[#1A2236] rounded-2xl px-4 py-3 flex gap-1 items-center">
-        {[0, 1, 2].map(i => (
+        {[0, 1, 2].map((i) => (
           <span
             key={i}
             className="w-1.5 h-1.5 bg-[#00D4AA] rounded-full animate-bounce"
@@ -134,6 +169,7 @@ export default function ClaudeChat() {
   const [input, setInput] = useState('')
   const [files, setFiles] = useState([])
   const [loading, setLoading] = useState(false)
+  const [fileError, setFileError] = useState('')
   const bottomRef = useRef(null)
   const fileInputRef = useRef(null)
   const textareaRef = useRef(null)
@@ -157,29 +193,52 @@ export default function ClaudeChat() {
   async function send() {
     const text = input.trim()
     if (!text && files.length === 0) return
+    if (loading) return
 
+    setFileError('')
     const contentArray = []
+    const displayFiles = []
 
-    for (const file of files) {
-      const data = await fileToBase64(file)
-      if (file.type === 'application/pdf') {
-        contentArray.push({
-          type: 'document',
-          source: { type: 'base64', media_type: 'application/pdf', data },
-        })
-      } else {
-        contentArray.push({
-          type: 'image',
-          source: { type: 'base64', media_type: file.type, data },
-        })
+    try {
+      for (const file of files) {
+        if (isImage(file)) {
+          const data = await fileToBase64(file)
+          contentArray.push({
+            type: 'image',
+            source: { type: 'base64', media_type: file.type || 'image/png', data },
+          })
+          displayFiles.push({ name: file.name, kind: fileKind(file) })
+        } else if (isPdf(file)) {
+          const data = await fileToBase64(file)
+          contentArray.push({
+            type: 'document',
+            source: { type: 'base64', media_type: 'application/pdf', data },
+          })
+          displayFiles.push({ name: file.name, kind: 'PDF' })
+        } else {
+          const extracted = await extractFileText(file)
+          contentArray.push({
+            type: 'text',
+            text: `Attached file "${file.name}":\n\n${extracted}`,
+          })
+          displayFiles.push({ name: file.name, kind: fileKind(file) })
+        }
       }
+    } catch (err) {
+      setFileError(`Could not read file: ${err.message}`)
+      return
     }
 
     if (text) {
       contentArray.push({ type: 'text', text })
     }
 
-    const userMsg = { role: 'user', content: contentArray }
+    const userMsg = {
+      role: 'user',
+      content: contentArray,
+      displayText: text,
+      files: displayFiles,
+    }
     const updatedMessages = [...messages, userMsg]
 
     setMessages(updatedMessages)
@@ -189,12 +248,12 @@ export default function ClaudeChat() {
 
     try {
       const assistantText = await callClaude(updatedMessages)
-      setMessages(prev => [
+      setMessages((prev) => [
         ...prev,
         { role: 'assistant', content: [{ type: 'text', text: assistantText }] },
       ])
     } catch (err) {
-      setMessages(prev => [
+      setMessages((prev) => [
         ...prev,
         {
           role: 'assistant',
@@ -215,7 +274,8 @@ export default function ClaudeChat() {
 
   function handleFileChange(e) {
     const picked = Array.from(e.target.files)
-    setFiles(prev => [...prev, ...picked])
+    setFileError('')
+    setFiles((prev) => [...prev, ...picked])
     e.target.value = ''
   }
 
@@ -223,7 +283,7 @@ export default function ClaudeChat() {
     <>
       {/* Chat drawer */}
       {open && (
-        <div className="fixed inset-x-4 top-4 bottom-24 z-50 flex flex-col glass border border-[#1A2236] rounded-2xl shadow-2xl">
+        <div className="fixed inset-x-4 top-4 bottom-24 z-50 flex flex-col glass border border-[#1A2236] rounded-2xl shadow-2xl md:inset-x-auto md:right-6 md:left-auto md:top-6 md:bottom-28 md:w-[min(720px,calc(100vw-3rem))]">
           {/* Header */}
           <div className="flex items-center justify-between px-4 py-3 border-b border-[#1A2236]">
             <div className="flex items-center gap-2">
@@ -246,7 +306,7 @@ export default function ClaudeChat() {
                 <input
                   type="password"
                   value={passwordInput}
-                  onChange={e => { setPasswordInput(e.target.value); setPasswordError(false) }}
+                  onChange={(e) => { setPasswordInput(e.target.value); setPasswordError(false) }}
                   placeholder="Password"
                   autoFocus
                   className="w-full bg-[#0C1018] border border-[#1A2236] rounded-xl px-4 py-2.5 text-sm text-gray-100 placeholder-gray-600 focus:outline-none focus:border-[#00D4AA]/50 transition-colors font-mono text-center tracking-widest"
@@ -285,10 +345,14 @@ export default function ClaudeChat() {
                     <FileChip
                       key={i}
                       file={f}
-                      onRemove={() => setFiles(prev => prev.filter((_, idx) => idx !== i))}
+                      onRemove={() => setFiles((prev) => prev.filter((_, idx) => idx !== i))}
                     />
                   ))}
                 </div>
+              )}
+
+              {fileError && (
+                <p className="px-4 py-1 text-xs text-red-400 border-t border-[#1A2236]">{fileError}</p>
               )}
 
               {/* Input row */}
@@ -296,14 +360,14 @@ export default function ClaudeChat() {
                 <button
                   onClick={() => fileInputRef.current?.click()}
                   className="text-gray-500 hover:text-[#00D4AA] transition-colors pb-2 flex-shrink-0"
-                  title="Attach image or PDF"
+                  title="Attach image, PDF, Word, Excel, PowerPoint or text file"
                 >
                   <FiPaperclip size={16} />
                 </button>
                 <input
                   ref={fileInputRef}
                   type="file"
-                  accept="image/jpeg,image/png,image/gif,image/webp,application/pdf"
+                  accept={ACCEPT}
                   multiple
                   className="hidden"
                   onChange={handleFileChange}
@@ -311,7 +375,7 @@ export default function ClaudeChat() {
                 <textarea
                   ref={textareaRef}
                   value={input}
-                  onChange={e => setInput(e.target.value)}
+                  onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
                   placeholder="Message…"
                   rows={1}
@@ -333,7 +397,7 @@ export default function ClaudeChat() {
 
       {/* Floating button */}
       <button
-        onClick={() => setOpen(prev => !prev)}
+        onClick={() => setOpen((prev) => !prev)}
         className={`fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 ${
           open
             ? 'bg-[#0C1018] border border-[#1A2236] text-gray-400 hover:text-gray-200'
