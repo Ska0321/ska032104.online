@@ -4,4 +4,10 @@ dist/
 *.local
 .claude/
 .env
-"api key.txt"
+api key.txt
+
+CLAUDE.local.md
+pic/
+
+# Raw guitar recordings (190-460 MB) exceed GitHub file limit
+Media/Hobby Guitar/

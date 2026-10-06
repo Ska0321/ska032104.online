@@ -31,8 +31,8 @@ Single-page app, smooth-scroll between sections. No routing library needed.
 | Component | Purpose |
 |-----------|---------|
 | `Navbar` | Fixed top bar, transparent → blurred on scroll, mobile hamburger |
-| `Hero` | Full-screen with CSS grid background + Framer Motion stagger |
-| `Projects` | Filterable card grid (All / Software / Hardware) with `AnimatePresence` |
+| `Hero` | Compact intro (name, tagline, socials, CV) so projects show above the fold |
+| `Projects` | Media showcase: featured mosaic + filterable card grid (All / Hardware / Software) + lightbox; parts in `components/project/` |
 | `Resume` | Two-column: experience/education timeline (left) + skill tags (right) |
 | `Contact` | Social links + async Formspree form with sent/error state |
 | `Footer` | Copyright + social icons |
@@ -67,15 +67,23 @@ Each project object supports:
   tags,        // string[]
   category,    // 'software' | 'hardware'
   year,        // string
-  featured,    // boolean — only ONE project should be featured; renders as FeaturedCard
-  github,      // URL or null → shows lock icon when both null
+  period,      // optional display range, e.g. 'Feb – Jul 2026' (falls back to year)
+  details,     // optional string[] — bullet points shown in the lightbox
+  featured,    // boolean — only ONE project should be featured; renders as FeaturedProject (wide mosaic)
+  github,      // URL or null
   live,        // URL or null
-  logo,        // path to image (featured card only)
-  images,      // string[] — paths under /projects/; featured card shows 3 at a time
-  image,       // single image path (non-featured fallback)
-  comingSoon,  // boolean — renders dimmed ComingSoonCard, no image needed
+  logo,        // optional path to image, shown in the lightbox header
+  media,       // [{ type: 'image', src } | { type: 'video', src, poster }] — media[0] is the card cover
+  comingSoon,  // boolean — renders dimmed ComingSoonCard, no media needed
 }
 ```
+
+Videos autoplay muted/looped only while on screen (`src/components/project/AutoplayVideo.jsx`,
+IntersectionObserver); they never autoplay under `prefers-reduced-motion`. Clicking any card opens
+`ProjectLightbox` with the full gallery and write-up.
+
+Raw media goes in `pic/` (gitignored). Before adding it to `public/projects/`, shrink photos to a
+long edge of ~1800px with EXIF orientation applied and metadata stripped.
 
 Images live in `public/projects/` and are referenced as `/projects/filename.ext`.
 
